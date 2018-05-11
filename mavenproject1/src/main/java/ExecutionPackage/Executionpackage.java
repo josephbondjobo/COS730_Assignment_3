@@ -8,7 +8,6 @@ package ExecutionPackage;
 import Entities.Algorithms;
 import Entities.Datasets;
 import Entities.Experiments;
-import Entities.Experiments;
 import Entities.Task;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Queue;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -31,6 +31,7 @@ import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /**
@@ -45,7 +46,7 @@ public class Executionpackage {
     ArrayList<Algorithms> algorithmList = new ArrayList<>();
     ArrayList<Task> taskList = new ArrayList<>();
     public static int gloounter = 0;
-    ArrayList<String> taskServiceBus = new ArrayList<>();
+    static LinkedList<String> taskServiceBus = new LinkedList<>();
     
 
     @Context
@@ -79,35 +80,35 @@ public class Executionpackage {
     
     public ArrayList<Task> getExperiment() throws JSONException, MalformedURLException, IOException
     {
-        		String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperiment";
+        //get experiments from Repository
+        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperiment";
 		
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	URL obj = new URL(url);
+	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		// optional default is GET
-		con.setRequestMethod("GET");
+	// optional default is GET
+	con.setRequestMethod("GET");
 
-		//add request header
-		con.setRequestProperty("User-Agent", USER_AGENT);
+	//add request header
+	con.setRequestProperty("User-Agent", USER_AGENT);
 
-		int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
-                BufferedReader in = new BufferedReader(
-		new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
+	int responseCode = con.getResponseCode();
+	
+        BufferedReader in = new BufferedReader(
+	new InputStreamReader(con.getInputStream()));
+	String inputLine;
+	StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
+	while ((inputLine = in.readLine()) != null) {
+		response.append(inputLine);
+	}
+	in.close();
 
-		//print result
-		//System.out.println(response.toString());
-                JSONObject arrayz = new JSONObject(response.toString());
-                //System.out.println("real shit:"+arrayz);
-        String message;
+	// experiments array from call
+        //JSONArray arrayExperiments = new JSONArray(response.toString());
+        
+                
+        //test experiments        
         JSONObject experiment = new JSONObject();
         experiment.put("ID", 1);
         experiment.put("Name", "k");
@@ -140,7 +141,7 @@ public class Executionpackage {
         Dataset1.put("ExperimentId", 2);
         Dataset1.put("Name", "Kudzai");
         Dataset1.put("Datapath", "Kudzai");
-        //
+        
         JSONArray array = new JSONArray();
         
         JSONArray array1 = new JSONArray();
@@ -160,8 +161,8 @@ public class Executionpackage {
         array2.put(algorithms1);
         
         
-//        System.out.println(array);
 
+        //add datasets to datasetsList
         for(int i = 0; i< array.length(); i++)
         {
             JSONObject j = (JSONObject) array1.get(i);
@@ -175,7 +176,8 @@ public class Executionpackage {
             
             datasetList.add(e);
         }
-        
+       
+        //add algorithms to algorithmsList
        for(int i = 0; i< array.length(); i++)
         {
             JSONObject j = (JSONObject) array2.get(i);
@@ -189,7 +191,7 @@ public class Executionpackage {
             
             algorithmList.add(e);
         }
-       
+       //add experiments to experimentsList
        for(int i = 0; i< array.length(); i++)
         {
             JSONObject j = (JSONObject) array.get(i);
@@ -202,13 +204,12 @@ public class Executionpackage {
             
             experimentList.add(e);
         }
+       
+       // Randomise the experiment tasks
         Collections.shuffle(experimentList);
-//        for(int i = 0; i<experimentList.size(); i++)
-//        {
-//            System.out.println(experimentList.get(i).getID());
-//        }
+       
 
-        //put experiments in task objects
+        //put experiments and associated datasets and algorithms in task objects and add to the tasks list
         for(int i = 0; i<experimentList.size(); i++)
         {
            //System.out.println(algorithmList.size());
@@ -235,71 +236,36 @@ public class Executionpackage {
             }
             taskList.add(t);
         }
-        JSONArray o = new JSONArray();
-        System.out.println(taskList.size());
+        //JSONArray o = new JSONArray();
+        //System.out.println(taskList.size());
         //o.put(taskList);
         
         //System.out.println(o);
         return taskList;
     }
-    @Path("getTasks")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public  String getTasks() throws JSONException, IOException {
-         ArrayList<Task> taskList1 = new ArrayList<>();
-         JSONArray o = new JSONArray();
-        JSONArray b = new JSONArray();
-        String a = new String();
-        
-       
-        //if(b.length()==0){
-       if( gloounter == 0){
-            taskList1 = getExperiment();
-            
-//            for(int k = 0; k < taskList1.size(); k++ ){
-//                o.put(taskList1.get(k).toString());
-//            }
-            o.put(taskList);
-            System.out.println(o.length());
-            System.out.println(taskList1.size());
-//            for(int k = 0; k < taskList1.size(); k++ ){
-//                b.put(taskList1.get(k).toString());
-//            }
-            b = o;
-            gloounter = b.length();
-        }
-        //System.out.println(i);
-         gloounter = b.length();
-        
-        
-        a =  b.get(0).toString();
-        System.out.println(taskList1.remove(0).getExperiment().toString());
-        System.out.println(o.length());
-       if(b.length()> 0){
-        b.remove(0);
-        gloounter = 0;
-       }
-        System.out.println(b.length());
-
-        return a;
-    }
     
-    @Path("getTasks1")
+    
+    @Path("getTask")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public  String getTasks1() throws JSONException, IOException {
-        JSONArray o = new JSONArray();
+        
+        ObjectMapper mapper = new ObjectMapper();
+        
         if(taskServiceBus.isEmpty())
         {
-            o.put(getExperiment());
+            
+            ArrayList<Task> t = getExperiment();
+            
+            for (int i = 0; i < t.size(); i++) 
+            {
+                String jsonInString = mapper.writeValueAsString(t.get(i));
+                taskServiceBus.add(jsonInString);
+            }
         }
-        System.out.println(o);
-        for(int i = 0; i<o.length(); i++)
-        {
-            taskServiceBus.add(o.get(i).toString());
-        }
+        System.out.println("Task Service bus size: "+taskServiceBus.size());
         
-        return taskServiceBus.remove(0);
+        return taskServiceBus.pop();
     }
     
 }
