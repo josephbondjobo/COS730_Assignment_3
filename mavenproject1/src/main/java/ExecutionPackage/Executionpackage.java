@@ -47,6 +47,7 @@ public class Executionpackage {
     ArrayList<Task> taskList = new ArrayList<>();
     public static int gloounter = 0;
     static LinkedList<String> taskServiceBus = new LinkedList<>();
+    static LinkedList<String> resultsServiceBus = new LinkedList<>();
     
 
     @Context
@@ -327,6 +328,7 @@ public class Executionpackage {
     public  String getTasks() throws JSONException, IOException {
         
         ObjectMapper mapper = new ObjectMapper();
+        String result;
         
         if(taskServiceBus.isEmpty())
         {
@@ -347,7 +349,9 @@ public class Executionpackage {
         }
         System.out.println("Task Service bus size: "+taskServiceBus.size());
         
-        return taskServiceBus.pop();
+        result = taskServiceBus.pop();
+        resultsServiceBus.add(result);
+        return result;
     }
     
 }
