@@ -6,11 +6,64 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Status</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
-    <body>
-        <div>TODO write content</div>
+    <body onload="myFunction('ready')">
+	
+			<!--div style="text-align: center">
+				<progress id="progres" value="10" max="100"></progress>
+			</div-->
+			
+			<div class="container">
+				<h2>Task Progress:</h2>
+				<div class="progress">
+					<div class="progress-bar" id="progres1" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+					</div>
+				</div>
+			</div>
+		
+		<script>
+			function myFunction(status) {
+				var status1 = "ready";
+				var status2 = "busy";
+				var status3 = "failed";
+				var n = "";
+			
+				if(status == status1){
+					n = "100%";
+				}
+				
+				if(status == status2){
+					n = "50%";
+				}
+				
+				if(status == status3){
+					n = "0%";
+				}
+				//document.getElementById("progres").value = n;
+				document.getElementById("progres1").style.width = n;
+				
+				/*var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("progres").value = this.responseText;
+					}
+					
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						var response = JSON.parse(xhttp.responseText);
+						alert(response.status);
+						document.getElementById("progres").value = this.responseText;
+					}
+				};
+				xhttp.open("GET", "xmlhttp_info.txt", true);
+				xhttp.send();*/
+			}
+		</script>
     </body>
 </html>

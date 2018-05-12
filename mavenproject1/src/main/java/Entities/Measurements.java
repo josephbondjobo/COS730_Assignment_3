@@ -14,12 +14,12 @@ public class Measurements {
     private int ID;
     private int ExperimentId;
     private String Name;
-    private int CpuTime;
-    private int CpuUsage;
-    private int ElapsedTime;
-    private int EnergyGenerated;
-    private int HeatGenerated;
-    private int MemoryUsage;
+    private double CpuTime;
+    private double CpuUsage;
+    private double ElapsedTime;
+    private double EnergyGenerated;
+    private double HeatGenerated;
+    private double MemoryUsage;
 
     public int getID() {
         return ID;
@@ -45,7 +45,7 @@ public class Measurements {
         this.Name = Name;
     }
 
-    public int getCpuTime() {
+    public double getCpuTime() {
         return CpuTime;
     }
 
@@ -53,7 +53,7 @@ public class Measurements {
         this.CpuTime = CpuTime;
     }
 
-    public int getCpuUsage() {
+    public double getCpuUsage() {
         return CpuUsage;
     }
 
@@ -61,7 +61,7 @@ public class Measurements {
         this.CpuUsage = CpuUsage;
     }
 
-    public int getElapsedTime() {
+    public double getElapsedTime() {
         return ElapsedTime;
     }
 
@@ -69,7 +69,7 @@ public class Measurements {
         this.ElapsedTime = ElapsedTime;
     }
 
-    public int getEnergyGenerated() {
+    public double getEnergyGenerated() {
         return EnergyGenerated;
     }
 
@@ -77,7 +77,7 @@ public class Measurements {
         this.EnergyGenerated = EnergyGenerated;
     }
 
-    public int getHeatGenerated() {
+    public double getHeatGenerated() {
         return HeatGenerated;
     }
 
@@ -85,7 +85,7 @@ public class Measurements {
         this.HeatGenerated = HeatGenerated;
     }
 
-    public int getMemoryUsage() {
+    public double getMemoryUsage() {
         return MemoryUsage;
     }
 

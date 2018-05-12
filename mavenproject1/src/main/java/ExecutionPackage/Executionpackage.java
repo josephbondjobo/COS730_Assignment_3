@@ -8,6 +8,7 @@ package ExecutionPackage;
 import Entities.Algorithms;
 import Entities.Datasets;
 import Entities.Experiments;
+import Entities.Measurements;
 import Entities.Task;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class Executionpackage {
     ArrayList<Experiments> experimentList = new ArrayList<>();
     ArrayList<Datasets> datasetList = new ArrayList<>();
     ArrayList<Algorithms> algorithmList = new ArrayList<>();
+    ArrayList<Measurements> measurementsList = new ArrayList<>();
     ArrayList<Task> taskList = new ArrayList<>();
     public static int gloounter = 0;
     static LinkedList<String> taskServiceBus = new LinkedList<>();
@@ -186,6 +188,40 @@ public class Executionpackage {
 //            
 //            arrayAlgorithm.put(response2.toString()); 
 //        }
+        
+        // measurement array from call
+//        JSONArray arrayMeasurement = new JSONArray();
+//        
+//        for(int i = 0; i < arrayExperiments.length(); i++)
+//        {
+//            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
+//            //JSONObject j = (JSONObject) arrayExperiments.get(i);
+//                    //get Algorithm from Repository
+//            String url2 = "http://cos.mjshika.xyz/api/repo/Measurement/GetMeasurements/?id=" + +j.getInt("ID");
+//
+//            URL obj2 = new URL(url2);
+//            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
+//
+//            // optional default is GET
+//            con2.setRequestMethod("GET");
+//
+//            //add request header
+//            con2.setRequestProperty("User-Agent", USER_AGENT);
+//
+//            int responseCode2 = con2.getResponseCode();
+//
+//            BufferedReader in2 = new BufferedReader(
+//            new InputStreamReader(con2.getInputStream()));
+//            String inputLine2;
+//            StringBuffer response2 = new StringBuffer();
+//
+//            while ((inputLine2 = in2.readLine()) != null) {
+//                    response2.append(inputLine2);
+//            }
+//            in2.close();
+//            
+//            arrayMeasurement.put(response2.toString()); 
+//        }
                
                 
         //test experiments        
@@ -207,9 +243,9 @@ public class Executionpackage {
         algorithms1.put("ExperimentId", 2);
         algorithms1.put("Name", "Kudzai");
         algorithms1.put("Path", "Kudzai");
-        //
+        ////dataset
         JSONObject Dataset = new JSONObject();
-    
+        
         Dataset.put("ID", 1);
         Dataset.put("ExperimentId", 1);
         Dataset.put("Name", "Kudzai");
@@ -222,10 +258,36 @@ public class Executionpackage {
         Dataset1.put("Name", "Kudzai");
         Dataset1.put("Datapath", "Kudzai");
         
+        //Measurements
+        JSONObject Measurement = new JSONObject();
+        
+        Measurement.put("ID", 1);
+        Measurement.put("ExperimentId", 1);
+        Measurement.put("Name", "Kudzai");
+        Measurement.put("CpuTime", 0.0);
+        Measurement.put("CpuUsage", 0.0);
+        Measurement.put("ElapsedTime", 0.0);
+        Measurement.put("EnergyGenerated", 0.0);
+        Measurement.put("HeatGenerated", 0.0);
+        Measurement.put("MemoryUsage", 0.0);
+        
+        JSONObject Measurement1 = new JSONObject();
+    
+        Measurement1.put("ID", 1);
+        Measurement1.put("ExperimentId", 2);
+        Measurement1.put("Name", "Kudzai");
+        Measurement1.put("CpuTime", 0.0);
+        Measurement1.put("CpuUsage", 0.0);
+        Measurement1.put("ElapsedTime", 0.0);
+        Measurement1.put("EnergyGenerated", 0.0);
+        Measurement1.put("HeatGenerated", 0.0);
+        Measurement1.put("MemoryUsage", 0.0);
+        
         JSONArray array = new JSONArray();
         
         JSONArray array1 = new JSONArray();
         JSONArray array2 = new JSONArray();
+        JSONArray array3 = new JSONArray();
         
         JSONObject item = new JSONObject();
         item.put("ID", 2);
@@ -240,10 +302,11 @@ public class Executionpackage {
         array2.put(algorithms);
         array2.put(algorithms1);
         
-        
+        array3.put(Measurement);
+        array3.put(Measurement1);
 
         //add datasets to datasetsList
-        for(int i = 0; i< array.length(); i++)
+        for(int i = 0; i< array1.length(); i++)
         {
             JSONObject j = (JSONObject) array1.get(i);
             
@@ -258,7 +321,7 @@ public class Executionpackage {
         }
        
         //add algorithms to algorithmsList
-       for(int i = 0; i< array.length(); i++)
+       for(int i = 0; i< array2.length(); i++)
         {
             JSONObject j = (JSONObject) array2.get(i);
             
@@ -270,6 +333,25 @@ public class Executionpackage {
             e.setExperimentId(j.getInt("ExperimentId"));
             
             algorithmList.add(e);
+        }
+        //add measurement to measurementsList
+       for(int i = 0; i< array3.length(); i++)
+        {
+            JSONObject j = (JSONObject) array3.get(i);
+            
+            
+            Measurements e = new Measurements();
+            e.setID(j.getInt("ID"));
+            e.setName(j.getString("Name"));
+            e.setCpuTime(j.getInt("CpuTime"));
+            e.setExperimentId(j.getInt("ExperimentId"));
+            e.setCpuUsage(j.getInt("CpuUsage"));
+            e.setElapsedTime(j.getInt("ElapsedTime"));
+            e.setEnergyGenerated(j.getInt("ElapsedTime"));
+            e.setHeatGenerated(j.getInt("HeatGenerated"));
+            
+            
+            measurementsList.add(e);
         }
        //add experiments to experimentsList
        for(int i = 0; i< array.length(); i++)
@@ -312,6 +394,15 @@ public class Executionpackage {
                 {
                     
                     t.getAlgorithm().add(algorithmList.get(j));
+                }
+            }
+            for(int j = 0; j<measurementsList.size(); j++)
+            {
+//                System.out.println(measurementsList.size());
+                
+                if(experimentList.get(i).getID() == measurementsList.get(j).getExperimentId())
+                {
+                    t.getMeasurement().add(measurementsList.get(j));
                 }
             }
             taskList.add(t);
