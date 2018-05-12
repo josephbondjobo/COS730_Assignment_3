@@ -32,7 +32,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
 /**
  * REST Web Service
@@ -352,6 +355,53 @@ public class Executionpackage {
         result = taskServiceBus.pop();
         resultsServiceBus.add(result);
         return result;
+    }
+    
+    
+    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=ExecutionResults";
+    String user = "cos730";
+    String pass = "cos730";
+    
+    @Path("postResult")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public void postResult(String result)
+    {
+        System.out.println("before try");
+        try 
+        {
+            System.out.println(1);
+            Class.forName(driver);
+            System.out.println(2);
+            
+            System.out.println(3);
+            Connection con = DriverManager.getConnection(url, user, pass);
+            System.out.println(4);
+            String sql = "INSERT INTO tblResult"
+                    + "(dispatcher, metric, result, value)"
+                    + "VALUES (?, ?, ?, ?)";
+            System.out.println(5);
+            PreparedStatement pst = con.prepareStatement(sql);
+            System.out.println(6);
+            
+            pst.setString(1, "sdfgsdgf");
+            pst.setString(2, "sfdgsdfg");
+            pst.setString(3, "sdfg");
+            pst.setString(4, "sdfg");
+            
+            System.out.println("set");
+            pst.executeUpdate();
+            System.out.println("update");
+        }   
+        catch (Exception e) 
+        {
+         System.out.println("catch " + e.getMessage());   
+  
+        }
+        
+        //stop the progress bar for the task... vra vir jbl
+        
     }
     
 }
