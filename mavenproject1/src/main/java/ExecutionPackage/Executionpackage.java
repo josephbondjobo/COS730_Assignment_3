@@ -37,6 +37,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,6 +46,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+//import net.sf.json.JSONObject;
 
 
 /**
@@ -491,9 +494,12 @@ public class Executionpackage {
     @Produces(MediaType.APPLICATION_JSON)
     public void postResult(String result)
     {
+
         System.out.println("before try");
         try 
         {
+            
+            /*Update the task in the DB*/
             Class.forName(driver);
             
             Connection con = DriverManager.getConnection(url, user, pass);
@@ -509,6 +515,20 @@ public class Executionpackage {
             pst.setString(4, "sdfg");
             
             pst.executeUpdate();
+            
+            /* Find the local instance of the task in the resultsServiceBus and update the task with the new result*/
+            
+            
+            /* Determine if all the tasks of the experiment have been executed. If yes, call the getResult function*/
+            int resultsPosted = 0;
+                        
+            for (String task : resultsServiceBus)
+            {
+                System.out.println(2);
+                System.out.println(task);
+                
+            }
+            System.out.println(3);
         }   
         catch (Exception e) 
         {
@@ -518,5 +538,50 @@ public class Executionpackage {
         
         //stop the progress bar for the task... vra vir jbl
         
+    }
+
+    @Path("getResults")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getResults() 
+    {
+
+        try 
+        {
+            System.out.println("in try");
+            Class.forName(driver);
+            
+            Connection con = DriverManager.getConnection(url, user, pass);
+            String sql = "SELECT * FROM tblResult";
+            
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            while (rs.next())
+            {
+                String taskID = "taskID " + rs.getInt(1);
+                
+                String dispatcher = "dispatcher " + rs.getString(1);
+                String metric = "metric " + rs.getString(2);
+                String result = "result " + rs.getString(3);
+                String values = "values " + rs.getString(4);
+                
+                
+                //JSONObject JSO = JSONObject.
+                //JSONObject JSO = JSONObject.fromObject(taskID + dispatcher + metric + result + values);
+                //System.out.println(JSO);
+            }
+            
+            
+
+        }
+        catch (Exception e)
+        {
+
+            System.out.println("error " + e);
+
+        }
+        
+        return "testing";
     }
 } 
