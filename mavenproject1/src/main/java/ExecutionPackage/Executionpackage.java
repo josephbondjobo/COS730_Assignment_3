@@ -34,6 +34,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -477,4 +480,43 @@ public class Executionpackage {
     
         return this.status;
     }  
+    
+    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=ExecutionResults";
+    String user = "cos730";
+    String pass = "cos730";
+    
+    @Path("postResult")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public void postResult(String result)
+    {
+        System.out.println("before try");
+        try 
+        {
+            Class.forName(driver);
+            
+            Connection con = DriverManager.getConnection(url, user, pass);
+            String sql = "INSERT INTO tblResult"
+                    + "(dispatcher, metric, result, value)"
+                    + "VALUES (?, ?, ?, ?)";
+
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setString(1, "sdfgsdgf");
+            pst.setString(2, "sfdgsdfg");
+            pst.setString(3, "sdfg");
+            pst.setString(4, "sdfg");
+            
+            pst.executeUpdate();
+        }   
+        catch (Exception e) 
+        {
+            System.out.println("catch " + e.getMessage());   
+  
+        }
+        
+        //stop the progress bar for the task... vra vir jbl
+        
+    }
 } 
