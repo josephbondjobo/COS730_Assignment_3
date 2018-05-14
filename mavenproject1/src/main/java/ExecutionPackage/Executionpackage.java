@@ -464,6 +464,12 @@ public class Executionpackage {
 
         result = taskServiceBus.pop();
         resultsServiceBus.add(result);
+
+        JSONObject j = new JSONObject(result);
+        JSONObject t = (JSONObject) j.get("experiment");
+        System.out.println("creating");
+        createExperimentInDB(t.getInt("id"));
+        System.out.println("created");
         return result;
     }
     
@@ -498,31 +504,11 @@ public class Executionpackage {
     @Produces(MediaType.APPLICATION_JSON)
     public void postResult(String result)
     {
-        JSONObject resultJSON = new JSONObject(result);
-        JSONArray resultArray = resultJSON.getJSONArray("result");
-        System.out.println(resultJSON);
-        System.out.println(resultArray.getJSONObject(0).getJSONArray("result"));
 
         try 
         {
             
-            /*Update the task in the DB*/
-            Class.forName(driver);
-
-            Connection con = DriverManager.getConnection(url, user, pass);
-            String sql = "INSERT INTO tblResult"
-                    + "(taskID, result)"
-                    + "VALUES (?, ?)";
-
-            PreparedStatement pst = con.prepareStatement(sql);
-            
-            pst.setInt(1, (int)resultArray.getJSONObject(0).get("taskID"));
-            pst.setString(2, resultArray.getJSONObject(0).toString());
-
-            pst.executeUpdate();
-
-            /* Send the result to the report team */
-            //getResults(result); //Should change to report's API call
+            uploadResultToDB(result);
             
             setStatus("Succeed");
             
@@ -534,6 +520,65 @@ public class Executionpackage {
         }
         
         
+    }
+
+    void uploadResultToDB(String result)
+    {
+        JSONObject resultJSON = new JSONObject(result);
+        JSONArray resultArray = resultJSON.getJSONArray("result");
+        System.out.println(resultJSON);
+        System.out.println(resultArray.getJSONObject(0).getJSONArray("result"));
+        
+        try
+        {
+            Class.forName(driver);
+
+            
+            Connection con = DriverManager.getConnection(url, user, pass);
+            String sql = "UPDATE tblResult SET result='" + resultArray.getJSONObject(0).toString() + "' WHERE taskID=" + resultArray.getJSONObject(0).get("taskID");
+            
+            System.out.println(sql);
+            PreparedStatement pst = con.prepareStatement(sql);
+        
+            //pst.setInt(2, (int)resultArray.getJSONObject(0).get("taskID"));
+            //pst.setString(1, resultArray.getJSONObject(0).toString());
+
+            pst.executeUpdate();
+            System.out.println("record updated");
+            
+            /* Send the result to the report team */
+            //getResults(result); //Should change to report's API call
+        }
+        catch(Exception e)
+        {
+            System.out.println("catch" + e.getMessage());
+        }
+
+    }
+
+    void createExperimentInDB(int id)
+    {
+
+        try
+        {
+            Class.forName(driver);
+
+            Connection con = DriverManager.getConnection(url, user, pass);
+            String sql = "INSERT INTO tblResult"
+                + "(taskID)"
+                + "VALUES (?)";
+
+            PreparedStatement pst = con.prepareStatement(sql);
+        
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+            System.out.println("record created");
+        }
+        catch(Exception e)
+        {
+            System.out.println("catch" + e.getMessage());
+        }
     }
     
 } 
