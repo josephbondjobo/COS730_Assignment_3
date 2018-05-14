@@ -8,6 +8,8 @@ services:
      - "8080:8080"
   execution-db:
     image: "microsoft/mssql-server-linux"
+    ports:
+     - "9000:1433"
     environment:
       - SA_PASSWORD=Long_Secret
       - ACCEPT_EULA=Y

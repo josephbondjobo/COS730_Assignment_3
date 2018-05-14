@@ -491,9 +491,9 @@ public class Executionpackage {
     }  
     
     String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    String url = "jdbc:sqlserver://localhost:1433;databaseName=ExecutionResults";
-    String user = "cos730";
-    String pass = "cos730";
+    String url = "jdbc:sqlserver://localhost:9000;databaseName=ExecutionResults";
+    String user = "sa";
+    String pass = "Long_Secret";
     
     
     /* API call that the node team should call to send the result back to us
