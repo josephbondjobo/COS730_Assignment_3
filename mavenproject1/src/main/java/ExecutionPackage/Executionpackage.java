@@ -34,6 +34,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,6 +46,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+//import net.sf.json.JSONObject;
 
 
 /**
@@ -477,4 +483,57 @@ public class Executionpackage {
     
         return this.status;
     }  
+    
+    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    String url = "jdbc:sqlserver://localhost:1433;databaseName=ExecutionResults";
+    String user = "cos730";
+    String pass = "cos730";
+    
+    
+    /* API call that the node team should call to send the result back to us
+    once we receive it, store it in the database and call report team's API 
+    to give them the result*/
+    @Path("postResult")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public void postResult(String result)
+    {
+        JSONObject resultJSON = new JSONObject(result);
+        JSONArray resultArray = resultJSON.getJSONArray("result");
+        System.out.println(resultJSON);
+        System.out.println(resultArray.getJSONObject(0).getJSONArray("result"));
+
+        try 
+        {
+            
+            /*Update the task in the DB*/
+            Class.forName(driver);
+
+            Connection con = DriverManager.getConnection(url, user, pass);
+            String sql = "INSERT INTO tblResult"
+                    + "(taskID, result)"
+                    + "VALUES (?, ?)";
+
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, (int)resultArray.getJSONObject(0).get("taskID"));
+            pst.setString(2, resultArray.getJSONObject(0).toString());
+
+            pst.executeUpdate();
+
+            /* Send the result to the report team */
+            //getResults(result); //Should change to report's API call
+            
+            setStatus("Succeed");
+            
+        }   
+        catch (Exception e) 
+        {
+            System.out.println("catch " + e.getMessage());   
+  
+        }
+        
+        
+    }
+    
 } 
