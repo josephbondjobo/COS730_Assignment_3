@@ -547,7 +547,7 @@ public class Executionpackage {
             System.out.println("record updated");
             
             /* Send the result to the report team */
-            //getResults(result); //Should change to report's API call
+            //sendResult(result); //Should change to report's API call
         }
         catch(Exception e)
         {
