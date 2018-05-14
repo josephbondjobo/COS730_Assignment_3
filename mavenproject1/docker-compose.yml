@@ -9,5 +9,5 @@ services:
   execution-db:
     image: "microsoft/mssql-server-linux"
     environment:
-      - SA_PASSWORD=secret
+      - SA_PASSWORD=Long_Secret
       - ACCEPT_EULA=Y
