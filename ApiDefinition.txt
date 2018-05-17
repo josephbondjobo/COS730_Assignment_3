@@ -1,0 +1,22 @@
+Execution team: API 
+
+This document contains the list of calls that can be made to request our services/data.
+
+1. Get Status for the experiment:
+
+http://localhost:8080/Executions/webresources/executionPackage/getStatus
+
+2. Get Task
+
+http://localhost:8080/Executions/webresources/executionPackage/getTask
+
+3.   Get method Retrieves representation of an instance of ExecutionPackage.Executionpackage
+     * @return an instance of java.lang.String
+     */
+    http://localhost:8080/Executions/webresources/executionPackage/getJson
+	
+4. /**
+     * PUT method for updating or creating an instance of Executionpackage
+     * @param content representation for the resource
+     */
+    http://localhost:8080/Executions/webresources/executionPackage/putJson
