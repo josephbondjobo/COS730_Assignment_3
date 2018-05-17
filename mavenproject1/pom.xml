@@ -151,7 +151,32 @@
                 </configuration>
 
             </plugin>
-
+            <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <configuration>
+                            <container>
+                                <containerId>glassfish4x</containerId>
+                                <type>installed</type>
+                                <!-- Path to directory where glassfish is installed -->
+                                <!--<home>C:\glassfish5</home>-->
+                                <home>/glassfish5</home>
+                            </container>
+                            <configuration>
+                                <type>existing</type>
+                                <!-- Path to domains directory -->
+                                <!--<home>C:\glassfish5\glassfish\domains</home>-->
+                                <properties>
+                                    <!-- Domain name where application will be deployed. -->
+                                    <cargo.glassfish.domain.name>domain1</cargo.glassfish.domain.name>
+                                    <!-- Glassfish user to authenticate -->
+                                    <cargo.remote.username>admin</cargo.remote.username>
+                                    <!-- Glassfish password to authenticate -->
+                                    <cargo.remote.password>admin</cargo.remote.password>
+                                </properties>
+                            </configuration>
+                        </configuration>
+                    </plugin>
         </plugins>
     </build>
 

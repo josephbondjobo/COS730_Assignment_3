@@ -1,15 +1,21 @@
 version: '2'
 
 services:
-  web:
+  execution-web:
     image: maven:3-jdk-8
-    container_name: web
+    container_name: execution-web
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     ports:
      - "8080:8080"
+    links:
+      - execution-db
+     #command:
+      # - mvn clean verify org.codehaus.cargo:cargo-maven2-plugin:run
   execution-db:
     image: "microsoft/mssql-server-linux"
-    ports:
-     - "9000:1433"
     environment:
       - SA_PASSWORD=Long_Secret
       - ACCEPT_EULA=Y
+
