@@ -1,0 +1,15 @@
+step1: docker build -t jdp-glassfish .
+
+step 2: docker run -d --name testing -p 8080:8080 jdp-glassfish
+
+testing: http://<local IP>:8080/Executions/apiFunctionName
+
+        ^^ For now it has to be localhost
+
+
+*jdp-glassfish can be anything
+*testing can be anything
+notice the " ." in step 1
+
+
+The .WAR file in the Dockerfile comes from the maven project folder under "target". Perform a clean rebuild to get a new one
