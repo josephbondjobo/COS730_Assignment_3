@@ -104,7 +104,7 @@ public class Executionpackage {
     public ArrayList<Task> getExperiment() throws JSONException, MalformedURLException, IOException
     {
         //get experiments from Repository
-        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperimentByUserID/"+1;
+        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperimentByUserID?ID ="+1;
 		
 	URL obj = new URL(url);
 	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -145,7 +145,7 @@ public class Executionpackage {
             JSONObject j = new JSONObject((String) arrayExperiments.get(i));
            // JSONObject j = (JSONObject) arrayExperiments.get(i);
                     //get Dataset from Repository
-            String url2 = "http://cos.mjshika.xyz/api/repo/Dataset/GetDatasetByUserId/"+j.getInt("UserId");
+            String url2 = "http://cos.mjshika.xyz/api/repo/Dataset/GetDatasetByUserId?Id="+j.getInt("UserId");
 
             URL obj2 = new URL(url2);
             HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
@@ -180,7 +180,7 @@ public class Executionpackage {
             JSONObject j = new JSONObject((String) arrayExperiments.get(i));
             //JSONObject j = (JSONObject) arrayExperiments.get(i);
                     //get Algorithm from Repository
-            String url2 = "http://cos.mjshika.xyz/api/repo/Algorithm/GetAllAlgorithmsByUserID/" +j.getInt("ID");
+            String url2 = "http://cos.mjshika.xyz/api/repo/Algorithm/GetAllAlgorithmsByUserID?id="+j.getInt("UserId");
 
             URL obj2 = new URL(url2);
             HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
