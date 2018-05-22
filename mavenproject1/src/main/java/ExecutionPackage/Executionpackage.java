@@ -103,143 +103,7 @@ public class Executionpackage {
     
     public ArrayList<Task> getExperiment() throws JSONException, MalformedURLException, IOException
     {
-//        //get experiments from Repository
-//        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperimentByUserID?ID ="+1;
-//		
-//	URL obj = new URL(url);
-//	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//
-//	// optional default is GET
-//	con.setRequestMethod("GET");
-//
-//	//add request header
-//	con.setRequestProperty("User-Agent", USER_AGENT);
-//
-//	int responseCode = con.getResponseCode();
-//	
-//        BufferedReader in = new BufferedReader(
-//	new InputStreamReader(con.getInputStream()));
-//	String inputLine;
-//	StringBuffer response = new StringBuffer();
-//
-//	while ((inputLine = in.readLine()) != null) {
-//		response.append(inputLine);
-//	}
-//	in.close();
-//        
-//        //check if call was successful
-//        if("0".equals(response.toString()))
-//        {
-//            return null;
-//        }
-//
-//	// experiments array from call
-//        JSONArray arrayExperiments = new JSONArray();
-//        arrayExperiments.put(response.toString());
-//        
-//        JSONArray arrayDataset = new JSONArray();
-//        
-//                //get Dataset from Repository
-//        for(int i = 0; i < arrayExperiments.length(); i++)
-//        {
-//            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
-//           // JSONObject j = (JSONObject) arrayExperiments.get(i);
-//                    //get Dataset from Repository
-//            String url2 = "http://cos.mjshika.xyz/api/repo/Dataset/GetDatasetByUserId?Id="+j.getInt("UserId");
-//
-//            URL obj2 = new URL(url2);
-//            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
-//
-//            // optional default is GET
-//            con2.setRequestMethod("GET");
-//
-//            //add request header
-//            con2.setRequestProperty("User-Agent", USER_AGENT);
-//
-//            int responseCode2 = con2.getResponseCode();
-//
-//            BufferedReader in2 = new BufferedReader(
-//            new InputStreamReader(con2.getInputStream()));
-//            String inputLine2;
-//            StringBuffer response2 = new StringBuffer();
-//
-//            while ((inputLine2 = in2.readLine()) != null) {
-//                    response2.append(inputLine2);
-//            }
-//            in2.close();
-//            
-//            arrayDataset.put(response2.toString());
-//        }        
-//        
-//        
-//	// Algorithm array from call
-//        JSONArray arrayAlgorithm = new JSONArray();
-//        
-//        for(int i = 0; i < arrayExperiments.length(); i++)
-//        {
-//            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
-//            //JSONObject j = (JSONObject) arrayExperiments.get(i);
-//                    //get Algorithm from Repository
-//            String url2 = "http://cos.mjshika.xyz/api/repo/Algorithm/GetAllAlgorithmsByUserID?id="+j.getInt("UserId");
-//
-//            URL obj2 = new URL(url2);
-//            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
-//
-//            // optional default is GET
-//            con2.setRequestMethod("GET");
-//
-//            //add request header
-//            con2.setRequestProperty("User-Agent", USER_AGENT);
-//
-//            int responseCode2 = con2.getResponseCode();
-//
-//            BufferedReader in2 = new BufferedReader(
-//            new InputStreamReader(con2.getInputStream()));
-//            String inputLine2;
-//            StringBuffer response2 = new StringBuffer();
-//
-//            while ((inputLine2 = in2.readLine()) != null) {
-//                    response2.append(inputLine2);
-//            }
-//            in2.close();
-//            
-//            arrayAlgorithm.put(response2.toString()); 
-//        }
-//        
-//        // measurement array from call
-//        JSONArray arrayMeasurement = new JSONArray();
-//        
-//        for(int i = 0; i < arrayExperiments.length(); i++)
-//        {
-//            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
-//            //JSONObject j = (JSONObject) arrayExperiments.get(i);
-//                    //get Algorithm from Repository
-//            String url2 = "http://cos.mjshika.xyz/api/repo/Measurement/GetMeasurements/?id=" + +j.getInt("ID");
-//
-//            URL obj2 = new URL(url2);
-//            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
-//
-//            // optional default is GET
-//            con2.setRequestMethod("GET");
-//
-//            //add request header
-//            con2.setRequestProperty("User-Agent", USER_AGENT);
-//
-//            int responseCode2 = con2.getResponseCode();
-//
-//            BufferedReader in2 = new BufferedReader(
-//            new InputStreamReader(con2.getInputStream()));
-//            String inputLine2;
-//            StringBuffer response2 = new StringBuffer();
-//
-//            while ((inputLine2 = in2.readLine()) != null) {
-//                    response2.append(inputLine2);
-//            }
-//            in2.close();
-//            
-//            arrayMeasurement.put(response2.toString()); 
-//        }
-               
+           
                 
 //        test experiments        
         JSONObject experiment = new JSONObject();
@@ -253,6 +117,7 @@ public class Executionpackage {
         data.put(4);
         data.put(5);
         data.put(6);
+        
         JSONArray meas = new JSONArray();
         meas.put("cpuUsage");
         meas.put("ramUsage");
@@ -428,7 +293,7 @@ public class Executionpackage {
             
             JSONArray d = j.getJSONArray("DatasetId");
             for (int k = 0; k < d.length(); k++) {
-                e.getAlgorithmId().add((Integer)d.getInt(k));
+                e.getDatasetId().add((Integer)d.getInt(k));
             }
             
             JSONArray m = j.getJSONArray("Measurements");
