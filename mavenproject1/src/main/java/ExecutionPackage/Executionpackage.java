@@ -104,282 +104,337 @@ public class Executionpackage {
     public ArrayList<Task> getExperiment() throws JSONException, MalformedURLException, IOException
     {
         //get experiments from Repository
-//        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperiment";
-//		
-//	URL obj = new URL(url);
-//	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//
-//	// optional default is GET
-//	con.setRequestMethod("GET");
-//
-//	//add request header
-//	con.setRequestProperty("User-Agent", USER_AGENT);
-//
-//	int responseCode = con.getResponseCode();
-//	
-//        BufferedReader in = new BufferedReader(
-//	new InputStreamReader(con.getInputStream()));
-//	String inputLine;
-//	StringBuffer response = new StringBuffer();
-//
-//	while ((inputLine = in.readLine()) != null) {
-//		response.append(inputLine);
-//	}
-//	in.close();
-//        
-//        //check if call was successful
-////        if("0".equals(response.toString()))
-////        {
-////            return null;
-////        }
-//
-//	// experiments array from call
-//        JSONArray arrayExperiments = new JSONArray();
-//        arrayExperiments.put(response.toString());
-//        
-//        JSONArray arrayDataset = new JSONArray();
-//        
-//                //get Dataset from Repository
-//        for(int i = 0; i < arrayExperiments.length(); i++)
-//        {
-//            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
-//           // JSONObject j = (JSONObject) arrayExperiments.get(i);
-//                    //get Dataset from Repository
-//            String url2 = "http://cos.mjshika.xyz/api/repo/Dataset/AddDataSet/?name=newName&datapath=newPath&id=expID\n"+j.getInt("ID");
-//
-//            URL obj2 = new URL(url2);
-//            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
-//
-//            // optional default is GET
-//            con2.setRequestMethod("GET");
-//
-//            //add request header
-//            con2.setRequestProperty("User-Agent", USER_AGENT);
-//
-//            int responseCode2 = con2.getResponseCode();
-//
-//            BufferedReader in2 = new BufferedReader(
-//            new InputStreamReader(con2.getInputStream()));
-//            String inputLine2;
-//            StringBuffer response2 = new StringBuffer();
-//
-//            while ((inputLine2 = in2.readLine()) != null) {
-//                    response2.append(inputLine2);
-//            }
-//            in2.close();
-//            
-//            arrayDataset.put(response2.toString());
-//        }        
-//        
-//        
-//	// Algorithm array from call
-//        JSONArray arrayAlgorithm = new JSONArray();
-//        
-//        for(int i = 0; i < arrayExperiments.length(); i++)
-//        {
-//            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
-//            //JSONObject j = (JSONObject) arrayExperiments.get(i);
-//                    //get Algorithm from Repository
-//            String url2 = "http://cos.mjshika.xyz/api/repo/Dataset/AddDataSet/?name=newName&datapath=newPath&id=" +j.getInt("ID");
-//
-//            URL obj2 = new URL(url2);
-//            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
-//
-//            // optional default is GET
-//            con2.setRequestMethod("GET");
-//
-//            //add request header
-//            con2.setRequestProperty("User-Agent", USER_AGENT);
-//
-//            int responseCode2 = con2.getResponseCode();
-//
-//            BufferedReader in2 = new BufferedReader(
-//            new InputStreamReader(con2.getInputStream()));
-//            String inputLine2;
-//            StringBuffer response2 = new StringBuffer();
-//
-//            while ((inputLine2 = in2.readLine()) != null) {
-//                    response2.append(inputLine2);
-//            }
-//            in2.close();
-//            
-//            arrayAlgorithm.put(response2.toString()); 
-//        }
+        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperimentByUserID/"+1;
+		
+	URL obj = new URL(url);
+	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+	// optional default is GET
+	con.setRequestMethod("GET");
+
+	//add request header
+	con.setRequestProperty("User-Agent", USER_AGENT);
+
+	int responseCode = con.getResponseCode();
+	
+        BufferedReader in = new BufferedReader(
+	new InputStreamReader(con.getInputStream()));
+	String inputLine;
+	StringBuffer response = new StringBuffer();
+
+	while ((inputLine = in.readLine()) != null) {
+		response.append(inputLine);
+	}
+	in.close();
+        
+        //check if call was successful
+        if("0".equals(response.toString()))
+        {
+            return null;
+        }
+
+	// experiments array from call
+        JSONArray arrayExperiments = new JSONArray();
+        arrayExperiments.put(response.toString());
+        
+        JSONArray arrayDataset = new JSONArray();
+        
+                //get Dataset from Repository
+        for(int i = 0; i < arrayExperiments.length(); i++)
+        {
+            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
+           // JSONObject j = (JSONObject) arrayExperiments.get(i);
+                    //get Dataset from Repository
+            String url2 = "http://cos.mjshika.xyz/api/repo/Dataset/GetDatasetByUserId/"+j.getInt("UserId");
+
+            URL obj2 = new URL(url2);
+            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
+
+            // optional default is GET
+            con2.setRequestMethod("GET");
+
+            //add request header
+            con2.setRequestProperty("User-Agent", USER_AGENT);
+
+            int responseCode2 = con2.getResponseCode();
+
+            BufferedReader in2 = new BufferedReader(
+            new InputStreamReader(con2.getInputStream()));
+            String inputLine2;
+            StringBuffer response2 = new StringBuffer();
+
+            while ((inputLine2 = in2.readLine()) != null) {
+                    response2.append(inputLine2);
+            }
+            in2.close();
+            
+            arrayDataset.put(response2.toString());
+        }        
+        
+        
+	// Algorithm array from call
+        JSONArray arrayAlgorithm = new JSONArray();
+        
+        for(int i = 0; i < arrayExperiments.length(); i++)
+        {
+            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
+            //JSONObject j = (JSONObject) arrayExperiments.get(i);
+                    //get Algorithm from Repository
+            String url2 = "http://cos.mjshika.xyz/api/repo/Algorithm/GetAllAlgorithmsByUserID/" +j.getInt("ID");
+
+            URL obj2 = new URL(url2);
+            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
+
+            // optional default is GET
+            con2.setRequestMethod("GET");
+
+            //add request header
+            con2.setRequestProperty("User-Agent", USER_AGENT);
+
+            int responseCode2 = con2.getResponseCode();
+
+            BufferedReader in2 = new BufferedReader(
+            new InputStreamReader(con2.getInputStream()));
+            String inputLine2;
+            StringBuffer response2 = new StringBuffer();
+
+            while ((inputLine2 = in2.readLine()) != null) {
+                    response2.append(inputLine2);
+            }
+            in2.close();
+            
+            arrayAlgorithm.put(response2.toString()); 
+        }
         
         // measurement array from call
-//        JSONArray arrayMeasurement = new JSONArray();
-//        
-//        for(int i = 0; i < arrayExperiments.length(); i++)
-//        {
-//            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
-//            //JSONObject j = (JSONObject) arrayExperiments.get(i);
-//                    //get Algorithm from Repository
-//            String url2 = "http://cos.mjshika.xyz/api/repo/Measurement/GetMeasurements/?id=" + +j.getInt("ID");
-//
-//            URL obj2 = new URL(url2);
-//            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
-//
-//            // optional default is GET
-//            con2.setRequestMethod("GET");
-//
-//            //add request header
-//            con2.setRequestProperty("User-Agent", USER_AGENT);
-//
-//            int responseCode2 = con2.getResponseCode();
-//
-//            BufferedReader in2 = new BufferedReader(
-//            new InputStreamReader(con2.getInputStream()));
-//            String inputLine2;
-//            StringBuffer response2 = new StringBuffer();
-//
-//            while ((inputLine2 = in2.readLine()) != null) {
-//                    response2.append(inputLine2);
-//            }
-//            in2.close();
-//            
-//            arrayMeasurement.put(response2.toString()); 
-//        }
+        JSONArray arrayMeasurement = new JSONArray();
+        
+        for(int i = 0; i < arrayExperiments.length(); i++)
+        {
+            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
+            //JSONObject j = (JSONObject) arrayExperiments.get(i);
+                    //get Algorithm from Repository
+            String url2 = "http://cos.mjshika.xyz/api/repo/Measurement/GetMeasurements/?id=" + +j.getInt("ID");
+
+            URL obj2 = new URL(url2);
+            HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
+
+            // optional default is GET
+            con2.setRequestMethod("GET");
+
+            //add request header
+            con2.setRequestProperty("User-Agent", USER_AGENT);
+
+            int responseCode2 = con2.getResponseCode();
+
+            BufferedReader in2 = new BufferedReader(
+            new InputStreamReader(con2.getInputStream()));
+            String inputLine2;
+            StringBuffer response2 = new StringBuffer();
+
+            while ((inputLine2 = in2.readLine()) != null) {
+                    response2.append(inputLine2);
+            }
+            in2.close();
+            
+            arrayMeasurement.put(response2.toString()); 
+        }
                
                 
         //test experiments        
-        JSONObject experiment = new JSONObject();
-        experiment.put("ID", 1);
-        experiment.put("Name", "k");
-        experiment.put("User", "Kudzai");
-//        System.out.println(experiment);
-        //Algorithms
-        JSONObject algorithms = new JSONObject();
-        algorithms.put("ID", 1);
-        algorithms.put("ExperimentId", 1);
-        algorithms.put("Name", "Kudzai");
-        algorithms.put("Path", "Kudzai");
-           
-        JSONObject algorithms1 = new JSONObject();
-    //
-        algorithms1.put("ID", 2);
-        algorithms1.put("ExperimentId", 2);
-        algorithms1.put("Name", "Kudzai");
-        algorithms1.put("Path", "Kudzai");
-        ////dataset
-        JSONObject Dataset = new JSONObject();
+//        JSONObject experiment = new JSONObject();
+//        JSONObject experiment1 = new JSONObject();
+//        JSONArray algo = new JSONArray();
+//        algo.put(1);
+//        algo.put(2);
+//        algo.put(3);
+//        
+//        JSONArray data = new JSONArray();
+//        data.put(4);
+//        data.put(5);
+//        data.put(6);
+//        JSONArray meas = new JSONArray();
+//        meas.put("cpuUsage");
+//        meas.put("ramUsage");
+//        meas.put("heatGenerated");
+//        
+//        experiment.put("ID", 1);
+//        experiment.put("Name", "k");
+//        experiment.put("UserId", 1);
+//        experiment.put("NumberOfIterations", 5);
+//        experiment.put("Timeout", 3);
+//        experiment.put("AlgorithmId", algo);
+//        experiment.put("DatasetId", data);
+//        experiment.put("Measurements", meas);
+//        
+//        experiment1.put("ID", 2);
+//        experiment1.put("Name", "k");
+//        experiment1.put("UserId", 2);
+//        experiment1.put("NumberOfIterations", 5);
+//        experiment1.put("Timeout", 3);
+//        experiment1.put("AlgorithmId", algo);
+//        experiment1.put("DatasetId", data);
+//        experiment1.put("Measurements", meas);
+////        System.out.println(experiment);
+//        //Algorithms
+//        JSONObject algorithms = new JSONObject();
+//        algorithms.put("ID", 1);
+//        algorithms.put("UserId", 1);
+//        algorithms.put("Name", "K");
+//        algorithms.put("Language", "Java");
+//        algorithms.put("FilePath", "asdf");
+//        algorithms.put("CompileCommand", "compile");
+//        algorithms.put("RunCommand", "run");
+//           
+//        JSONObject algorithms1 = new JSONObject();
+//    //
+//        algorithms1.put("ID", 2);
+//        algorithms1.put("UserId", 2);
+//        algorithms1.put("Name", "Kudzai");
+//        algorithms1.put("Language", "C");
+//        algorithms1.put("FilePath", "asdf");
+//        algorithms1.put("CompileCommand", "compile");
+//        algorithms1.put("RunCommand", "run");
+//        ////dataset
+//        JSONObject Dataset = new JSONObject();
+//        
+//        Dataset.put("ID", 1);
+//        Dataset.put("UserId", 1);
+//        Dataset.put("Name", "Kudzai");
+//        Dataset.put("FilePath", "Kudzai");
+//        
+//                JSONObject Dataset1 = new JSONObject();
+//    
+//        Dataset1.put("ID", 2);
+//        Dataset1.put("UserId", 2);
+//        Dataset1.put("Name", "Kudzai");
+//        Dataset1.put("FilePath", "Kudzai");
+//        
+//        //Measurements
+////        JSONObject Measurement = new JSONObject();
+////        
+////        Measurement.put("ID", 1);
+////        Measurement.put("ExperimentId", 1);
+////        Measurement.put("Name", "Kudzai");
+////        Measurement.put("CpuTime", 0.0);
+////        Measurement.put("CpuUsage", 0.0);
+////        Measurement.put("ElapsedTime", 0.0);
+////        Measurement.put("EnergyGenerated", 0.0);
+////        Measurement.put("HeatGenerated", 0.0);
+////        Measurement.put("MemoryUsage", 0.0);
+////        
+////        JSONObject Measurement1 = new JSONObject();
+////    
+////        Measurement1.put("ID", 1);
+////        Measurement1.put("ExperimentId", 2);
+////        Measurement1.put("Name", "Kudzai");
+////        Measurement1.put("CpuTime", 0.0);
+////        Measurement1.put("CpuUsage", 0.0);
+////        Measurement1.put("ElapsedTime", 0.0);
+////        Measurement1.put("EnergyGenerated", 0.0);
+////        Measurement1.put("HeatGenerated", 0.0);
+////        Measurement1.put("MemoryUsage", 0.0);
+//        
+//        JSONArray array = new JSONArray();
+//        
+//        JSONArray array1 = new JSONArray();
+//        JSONArray array2 = new JSONArray();
+//        JSONArray array3 = new JSONArray();
+//        
+////        JSONObject item = new JSONObject();
+////        item.put("ID", 2);
+////        item.put("Name", "g");
+////        item.put("User", "course1");
+//        array.put(experiment1);
+//        array.put(experiment);
+//        
+//        array1.put(Dataset);
+//        array1.put(Dataset1);
+//        
+//        array2.put(algorithms);
+//        array2.put(algorithms1);
         
-        Dataset.put("ID", 1);
-        Dataset.put("ExperimentId", 1);
-        Dataset.put("Name", "Kudzai");
-        Dataset.put("Datapath", "Kudzai");
-        
-                JSONObject Dataset1 = new JSONObject();
-    
-        Dataset1.put("ID", 2);
-        Dataset1.put("ExperimentId", 2);
-        Dataset1.put("Name", "Kudzai");
-        Dataset1.put("Datapath", "Kudzai");
-        
-        //Measurements
-        JSONObject Measurement = new JSONObject();
-        
-        Measurement.put("ID", 1);
-        Measurement.put("ExperimentId", 1);
-        Measurement.put("Name", "Kudzai");
-        Measurement.put("CpuTime", 0.0);
-        Measurement.put("CpuUsage", 0.0);
-        Measurement.put("ElapsedTime", 0.0);
-        Measurement.put("EnergyGenerated", 0.0);
-        Measurement.put("HeatGenerated", 0.0);
-        Measurement.put("MemoryUsage", 0.0);
-        
-        JSONObject Measurement1 = new JSONObject();
-    
-        Measurement1.put("ID", 1);
-        Measurement1.put("ExperimentId", 2);
-        Measurement1.put("Name", "Kudzai");
-        Measurement1.put("CpuTime", 0.0);
-        Measurement1.put("CpuUsage", 0.0);
-        Measurement1.put("ElapsedTime", 0.0);
-        Measurement1.put("EnergyGenerated", 0.0);
-        Measurement1.put("HeatGenerated", 0.0);
-        Measurement1.put("MemoryUsage", 0.0);
-        
-        JSONArray array = new JSONArray();
-        
-        JSONArray array1 = new JSONArray();
-        JSONArray array2 = new JSONArray();
-        JSONArray array3 = new JSONArray();
-        
-        JSONObject item = new JSONObject();
-        item.put("ID", 2);
-        item.put("Name", "g");
-        item.put("User", "course1");
-        array.put(item);
-        array.put(experiment);
-        
-        array1.put(Dataset);
-        array1.put(Dataset1);
-        
-        array2.put(algorithms);
-        array2.put(algorithms1);
-        
-        array3.put(Measurement);
-        array3.put(Measurement1);
+//        array3.put(Measurement);
+//        array3.put(Measurement1);
 
         //add datasets to datasetsList
-        for(int i = 0; i< array1.length(); i++)
+        for(int i = 0; i< arrayDataset.length(); i++)
         {
-            JSONObject j = (JSONObject) array1.get(i);
+            JSONObject j = (JSONObject) arrayDataset.get(i);
             
             
             Datasets e = new Datasets();
             e.setID(j.getInt("ID"));
             e.setName(j.getString("Name"));
-            e.setDatapath(j.getString("Datapath"));
-            e.setExperimentId(j.getInt("ExperimentId"));
+            e.setFilePath(j.getString("FilePath"));
+            e.setUserId(j.getInt("UserId"));
             
             datasetList.add(e);
         }
        
         //add algorithms to algorithmsList
-       for(int i = 0; i< array2.length(); i++)
+       for(int i = 0; i< arrayAlgorithm.length(); i++)
         {
-            JSONObject j = (JSONObject) array2.get(i);
+            JSONObject j = (JSONObject) arrayAlgorithm.get(i);
             
             
             Algorithms e = new Algorithms();
             e.setID(j.getInt("ID"));
             e.setName(j.getString("Name"));
-            e.setPath(j.getString("Path"));
-            e.setExperimentId(j.getInt("ExperimentId"));
+            e.setFilePath(j.getString("FilePath"));
+            e.setLanguage(j.getString("Language"));
+            e.setCompileCommand(j.getString("CompileCommand"));
+            e.setRunCommand(j.getString("RunCommand"));
+            e.setUserId(j.getInt("UserId"));
             
             algorithmList.add(e);
         }
         //add measurement to measurementsList
-       for(int i = 0; i< array3.length(); i++)
-        {
-            JSONObject j = (JSONObject) array3.get(i);
-            
-            
-            Measurements e = new Measurements();
-            e.setID(j.getInt("ID"));
-            e.setName(j.getString("Name"));
-            e.setCpuTime(j.getInt("CpuTime"));
-            e.setExperimentId(j.getInt("ExperimentId"));
-            e.setCpuUsage(j.getInt("CpuUsage"));
-            e.setElapsedTime(j.getInt("ElapsedTime"));
-            e.setEnergyGenerated(j.getInt("ElapsedTime"));
-            e.setHeatGenerated(j.getInt("HeatGenerated"));
-            
-            
-            measurementsList.add(e);
-        }
+//       for(int i = 0; i< array3.length(); i++)
+//        {
+//            JSONObject j = (JSONObject) array3.get(i);
+//            
+//            
+//            Measurements e = new Measurements();
+//            e.setID(j.getInt("ID"));
+//            e.setName(j.getString("Name"));
+//            e.setCpuTime(j.getInt("CpuTime"));
+//            e.setExperimentId(j.getInt("ExperimentId"));
+//            e.setCpuUsage(j.getInt("CpuUsage"));
+//            e.setElapsedTime(j.getInt("ElapsedTime"));
+//            e.setEnergyGenerated(j.getInt("ElapsedTime"));
+//            e.setHeatGenerated(j.getInt("HeatGenerated"));
+//            
+//            
+//            measurementsList.add(e);
+//        }
        //add experiments to experimentsList
-       for(int i = 0; i< array.length(); i++)
+       for(int i = 0; i< arrayExperiments.length(); i++)
         {
-            JSONObject j = (JSONObject) array.get(i);
+            JSONObject j = (JSONObject) arrayExperiments.get(i);
             
-            
+            System.out.println("UserId: "+ j.getInt("UserId"));
             Experiments e = new Experiments();
             e.setID(j.getInt("ID"));
             e.setName(j.getString("Name"));
-            e.setUser(j.getString("User"));
+            e.setUserId(j.getInt("UserId"));
+            e.setNumberOfIterations(j.getInt("NumberOfIterations"));
+            e.setTimeout(j.getInt("Timeout"));
+            
+            JSONArray a = j.getJSONArray("AlgorithmId");
+            for (int k = 0; k < a.length(); k++) {
+                e.getAlgorithmId().add((Integer)a.getInt(k));
+            }
+            
+            JSONArray d = j.getJSONArray("DatasetId");
+            for (int k = 0; k < d.length(); k++) {
+                e.getAlgorithmId().add((Integer)d.getInt(k));
+            }
+            
+            JSONArray m = j.getJSONArray("Measurements");
+            for (int k = 0; k < m.length(); k++) {
+                e.getMeasurements().add(m.getString(k));
+            }
             
             experimentList.add(e);
         }
@@ -398,7 +453,7 @@ public class Executionpackage {
             {
                             //System.out.println(datasetList.get(j).getExperimentId());
 
-                if(experimentList.get(i).getID() == datasetList.get(j).getExperimentId())
+                if(experimentList.get(i).getUserId()== datasetList.get(j).getUserId())
                 {
                     
                     t.getDataset().add(datasetList.get(j));
@@ -407,21 +462,21 @@ public class Executionpackage {
             
             for(int j = 0; j<algorithmList.size(); j++)
             {
-                if(experimentList.get(i).getID() == algorithmList.get(j).getExperimentId())
+                if(experimentList.get(i).getUserId() == algorithmList.get(j).getUserId())
                 {
                     
                     t.getAlgorithm().add(algorithmList.get(j));
                 }
             }
-            for(int j = 0; j<measurementsList.size(); j++)
-            {
-//                System.out.println(measurementsList.size());
-                
-                if(experimentList.get(i).getID() == measurementsList.get(j).getExperimentId())
-                {
-                    t.getMeasurement().add(measurementsList.get(j));
-                }
-            }
+//            for(int j = 0; j<measurementsList.size(); j++)
+//            {
+////                System.out.println(measurementsList.size());
+//                
+//                if(experimentList.get(i).getID() == measurementsList.get(j).getExperimentId())
+//                {
+//                    t.getMeasurement().add(measurementsList.get(j));
+//                }
+//            }
             taskList.add(t);
         }
         //JSONArray o = new JSONArray();
@@ -454,14 +509,18 @@ public class Executionpackage {
             
             for (int i = 0; i < t.size(); i++) 
             {
-                String jsonInString = mapper.writeValueAsString(t.get(i));
-                taskServiceBus.add(jsonInString);
+                int runs = t.get(i).getExperiment().getNumberOfIterations();
+                for(; runs>0; runs--)
+                {
+                    String jsonInString = mapper.writeValueAsString(t.get(i));
+                    taskServiceBus.add(jsonInString);
+                }
             }
         }
         System.out.println("Task Service bus size: "+taskServiceBus.size());
         setStatus("ready");
         startTime = Calendar.getInstance();
-
+        System.out.println("here: "+ taskServiceBus.getFirst());
         result = taskServiceBus.pop();
         resultsServiceBus.add(result);
 
