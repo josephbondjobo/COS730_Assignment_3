@@ -550,7 +550,7 @@ public class Executionpackage {
     }  
     
     String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    String url = "jdbc:sqlserver://localhost:9000;databaseName=ExecutionResults";
+    String url = "jdbc:sqlserver://execution-db:1432;databaseName=ExecutionResults";
     String user = "sa";
     String pass = "Long_Secret";
     

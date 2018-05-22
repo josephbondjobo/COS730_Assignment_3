@@ -1,13 +1,6 @@
-#FROM anapsix/alpine-java
-#FROM maven:3.3-jdk-8
-#FROM maasencioh/glassfish-maven:latest
-FROM maasencioh/glassfish-maven:latest
-COPY ./target/Executions-1.0-SNAPSHOT.war /home/Executions-1.0-SNAPSHOT.war
-COPY . .
-CMD mvn clean verify org.codehaus.cargo:cargo-maven2-plugin:run
+FROM oracle/glassfish
 
-#FROM glassfish:5.0
-
+COPY  ./Executions-1.0-SNAPSHOT.WAR ${GLASHFISH_HOME}/glassfish5/glassfish/domains/domain1/autodeploy
 
 # FROM microsoft/mssql-server-linux
 # COPY ./target/Executions-1.0-SNAPSHOT.war .
