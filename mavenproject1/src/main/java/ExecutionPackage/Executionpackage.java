@@ -136,13 +136,15 @@ public class Executionpackage {
 	// experiments array from call
         JSONArray arrayExperiments = new JSONArray();
         arrayExperiments.put(response.toString());
+        System.out.println(response);
         
         JSONArray arrayDataset = new JSONArray();
         
                 //get Dataset from Repository
         for(int i = 0; i < arrayExperiments.length(); i++)
         {
-            JSONObject j = new JSONObject((String) arrayExperiments.get(i));
+            JSONObject j = new JSONObject(arrayExperiments.get(i));
+            //System.out.println(j);
            // JSONObject j = (JSONObject) arrayExperiments.get(i);
                     //get Dataset from Repository
             String url2 = "http://cos.mjshika.xyz/api/repo/Dataset/GetDatasetByUserId?Id="+j.getInt("UserId");
