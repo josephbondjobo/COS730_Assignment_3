@@ -610,6 +610,18 @@ public class Executionpackage {
             
             /* Send the result to the report team */
             //sendResult(result); //Should change to report's API call
+            String url = "http://cos.mjshika.xyz/api/reports/quantumup/api/reports/store/"+result;
+		
+            URL obj = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+            // optional default is GET
+            conn.setRequestMethod("POST");
+
+            //add request header
+            conn.setRequestProperty("User-Agent", USER_AGENT);
+
+            int responseCode = conn.getResponseCode();
         }
         catch(Exception e)
         {
