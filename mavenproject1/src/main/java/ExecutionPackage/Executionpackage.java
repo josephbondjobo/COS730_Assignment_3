@@ -104,7 +104,7 @@ public class Executionpackage {
     public ArrayList<Task> getExperiment() throws JSONException, MalformedURLException, IOException
     {
         //get experiments from Repository
-        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperimentByUserID?ID ="+1;
+        String url = "http://cos.mjshika.xyz/api/repo/Experiment/GetExperimentByUserID?ID="+1;
 		
 	URL obj = new URL(url);
 	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
