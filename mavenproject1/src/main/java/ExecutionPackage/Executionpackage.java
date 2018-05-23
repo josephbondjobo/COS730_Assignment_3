@@ -43,6 +43,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,22 +109,23 @@ public class Executionpackage {
 //        test experiments        
         JSONObject experiment = new JSONObject();
         JSONObject experiment1 = new JSONObject();
+        Random r = new Random();
         JSONArray algo = new JSONArray();
         algo.put(1);
         algo.put(2);
-        algo.put(3);
+
         
         JSONArray data = new JSONArray();
-        data.put(4);
-        data.put(5);
-        data.put(6);
+        data.put(1);
+        data.put(2);
+
         
         JSONArray meas = new JSONArray();
         meas.put("cpuUsage");
         meas.put("ramUsage");
         meas.put("heatGenerated");
         
-        experiment.put("ID", 1);
+        experiment.put("ID", r.nextInt(1000000));
         experiment.put("Name", "k");
         experiment.put("UserId", 1);
         experiment.put("NumberOfIterations", 5);
@@ -132,7 +134,7 @@ public class Executionpackage {
         experiment.put("DatasetId", data);
         experiment.put("Measurements", meas);
         
-        experiment1.put("ID", 2);
+        experiment1.put("ID", r.nextInt(1000000));
         experiment1.put("Name", "k");
         experiment1.put("UserId", 2);
         experiment1.put("NumberOfIterations", 5);
@@ -382,6 +384,7 @@ public class Executionpackage {
                 }
             }
         }
+        Collections.shuffle(taskServiceBus);
         System.out.println("Task Service bus size: "+taskServiceBus.size());
         setStatus("ready");
         startTime = Calendar.getInstance();
